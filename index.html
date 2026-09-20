@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TalkType — говорите как умеете, отправляйте как надо</title>
+<meta name="description" content="Нажимаете кнопку, говорите своими словами — в поле вставляется грамотный русский текст. В Telegram, WhatsApp, в чате с начальником. Голос нигде не хранится.">
+<meta name="theme-color" content="#0F6E58">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="TalkType — говорите как умеете, отправляйте как надо">
+<meta property="og:description" content="Сказали своими словами — в поле вставился грамотный русский текст. Работает в Telegram, WhatsApp и любом другом приложении на Android.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Golos+Text:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --ground: #F2F5F2;
+    --surface: #FFFFFF;
+    --surface-sunk: #EAEEEB;
+    --ink: #121A18;
+    --muted: #5E6D68;
+    --faint: #8A9895;
+    --accent: #0F6E58;
+    --accent-ink: #FFFFFF;
+    --accent-soft: #DCEDE7;
+    --raw: #9C5630;
+    --raw-soft: #F4E7DE;
+    --line: #D9E1DD;
+    --shadow: 0 1px 2px rgba(18, 26, 24, .06), 0 8px 24px -12px rgba(18, 26, 24, .18);
+    --radius: 14px;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0C1311;
+      --surface: #141D1A;
+      --surface-sunk: #101815;
+      --ink: #E7EFEB;
+      --muted: #94A39E;
+      --faint: #6E7D78;
+      --accent: #35BC97;
+      --accent-ink: #06211A;
+      --accent-soft: #14312A;
+      --raw: #D08A5E;
+      --raw-soft: #2A1F18;
+      --line: #223029;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -12px rgba(0, 0, 0, .6);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0C1311;
+    --surface: #141D1A;
+    --surface-sunk: #101815;
+    --ink: #E7EFEB;
+    --muted: #94A39E;
+    --faint: #6E7D78;
+    --accent: #35BC97;
+    --accent-ink: #06211A;
+    --accent-soft: #14312A;
+    --raw: #D08A5E;
+    --raw-soft: #2A1F18;
+    --line: #223029;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -12px rgba(0, 0, 0, .6);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  img { max-width: 100%; }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Golos Text", "Segoe UI", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .wrap {
+    max-width: 620px;
+    margin: 0 auto;
+    padding-inline: 20px;
+    padding-block: 0 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+  h1, h2, .wordmark {
+    font-family: "Unbounded", "Golos Text", sans-serif;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    text-wrap: balance;
+    margin: 0;
+  }
+  h1 { font-size: clamp(28px, 7.4vw, 40px); line-height: 1.12; }
+  h2 { font-size: 21px; line-height: 1.25; }
+  p { margin: 0; }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 18px 0;
+  }
+  .wordmark { font-size: 17px; font-weight: 600; letter-spacing: -.03em; }
+  .wordmark span { color: var(--accent); }
+  .langs { display: flex; gap: 2px; background: var(--surface-sunk); border-radius: 999px; padding: 3px; }
+  .langs button {
+    font: inherit; font-size: 13px; font-weight: 600;
+    border: 0; background: none; color: var(--muted);
+    padding: 5px 12px; border-radius: 999px; cursor: pointer;
+  }
+  .langs button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+
+  .hero { display: flex; flex-direction: column; gap: 18px; }
+  .eyebrow {
+    align-self: flex-start;
+    font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 5px 11px; border-radius: 999px;
+  }
+  .lede { font-size: 17px; color: var(--muted); max-width: 46ch; }
+
+  .demo {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .demo-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    background: var(--surface-sunk);
+  }
+  .demo-to { font-size: 13px; font-weight: 600; }
+  .demo-to em { font-style: normal; color: var(--muted); font-weight: 500; }
+  .dots { display: flex; gap: 5px; }
+  .dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--line); display: block; }
+  .dots i.on { background: var(--accent); }
+
+  .demo-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; min-height: 232px; }
+  .step-label {
+    font-size: 11px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase;
+    color: var(--faint); display: flex; align-items: center; gap: 7px;
+  }
+  .step-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  .raw {
+    background: var(--raw-soft);
+    color: var(--raw);
+    border-radius: 12px 12px 12px 4px;
+    padding: 11px 13px;
+    font-size: 15px;
+  }
+  .clean {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-radius: 12px 12px 4px 12px;
+    padding: 11px 13px;
+    font-size: 15px;
+    align-self: flex-end;
+    max-width: 92%;
+    white-space: pre-line;
+  }
+  .block { display: flex; flex-direction: column; gap: 7px; }
+  .reveal { animation: rise .32s ease-out both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+
+  .wave { display: flex; align-items: center; gap: 4px; height: 40px; padding-inline: 2px; }
+  .wave i {
+    display: block; width: 4px; border-radius: 2px; background: var(--accent);
+    height: 30%; transform-origin: center;
+    animation: bounce .9s ease-in-out infinite;
+  }
+  @keyframes bounce { 0%, 100% { height: 22%; } 50% { height: 100%; } }
+  .thinking { color: var(--muted); font-size: 15px; }
+
+  .demo-foot { padding: 0 16px 16px; }
+  .btn {
+    font: inherit; font-weight: 600; font-size: 16px;
+    border: 0; border-radius: 12px; cursor: pointer;
+    padding: 13px 18px; width: 100%;
+    background: var(--accent); color: var(--accent-ink);
+    display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+    text-decoration: none;
+  }
+  .btn[disabled] { opacity: .6; cursor: default; }
+  .btn-ghost { background: var(--surface-sunk); color: var(--ink); border: 1px solid var(--line); }
+  .btn:focus-visible, .langs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .mic { width: 17px; height: 17px; flex: none; }
+
+  section { display: flex; flex-direction: column; gap: 16px; }
+  .steps { display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; list-style: none; counter-reset: s; }
+  .steps li {
+    counter-increment: s;
+    display: grid; grid-template-columns: 30px 1fr; gap: 13px; align-items: start;
+  }
+  .steps li::before {
+    content: counter(s);
+    font-family: "Unbounded", sans-serif; font-size: 13px; font-weight: 600;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--accent-soft); color: var(--accent);
+    display: grid; place-items: center;
+  }
+  .steps b { font-weight: 600; display: block; }
+  .steps span { color: var(--muted); font-size: 15px; }
+
+  .note { color: var(--muted); font-size: 15px; }
+  .panel {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .facts { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .facts li { display: grid; grid-template-columns: 18px 1fr; gap: 11px; font-size: 15px; }
+  .facts svg { width: 18px; height: 18px; margin-top: 3px; color: var(--accent); flex: none; }
+
+  .price { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .price b { font-family: "Unbounded", sans-serif; font-size: 26px; font-weight: 700; }
+  .price span { color: var(--muted); font-size: 15px; }
+
+  .cta { display: flex; flex-direction: column; gap: 10px; }
+  .cta .note { text-align: center; font-size: 14px; }
+
+  footer { color: var(--faint); font-size: 13px; display: flex; flex-direction: column; gap: 6px; }
+  footer a { color: var(--muted); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="topbar">
+    <div class="wordmark">Talk<span>Type</span></div>
+    <div class="langs" role="group" aria-label="Язык / Til">
+      <button type="button" id="lang-ru" aria-pressed="true">RU</button>
+      <button type="button" id="lang-uz" aria-pressed="false">O‘Z</button>
+    </div>
+  </header>
+
+  <div class="hero">
+    <span class="eyebrow" data-i="eyebrow">Скоро · Android</span>
+    <h1 data-i="h1">Говорите как умеете — отправляйте как надо</h1>
+    <p class="lede" data-i="lede">Нажимаете кнопку, говорите своими словами — в поле вставляется грамотный русский текст. В Telegram, WhatsApp, в чате с начальником.</p>
+
+    <div class="demo">
+      <div class="demo-head">
+        <div class="demo-to"><em data-i="to">Кому:</em> <span id="demo-to">начальнику</span></div>
+        <div class="dots" id="dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+      </div>
+
+      <div class="demo-body" id="stage" aria-live="polite"></div>
+
+      <div class="demo-foot">
+        <button type="button" class="btn btn-ghost" id="play">
+          <svg class="mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>
+          <span id="play-label" data-i="btnNext">Другой пример</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="cta">
+      <a class="btn" id="cta-top" href="https://t.me/talktype_master_bot?start=beta" target="_blank" rel="noopener" data-i="cta">Записаться в бету</a>
+      <p class="note" data-i="ctaNote">Первым 50 — бесплатно на всё время беты</p>
+    </div>
+  </div>
+
+  <section>
+    <h2 data-i="howH">Как это работает</h2>
+    <ol class="steps">
+      <li><b data-i="s1">Поставьте курсор в любое поле ввода</b><span data-i="s1d">Чат, поиск, форма — приложение не важно</span></li>
+      <li><b data-i="s2">Нажмите на кнопку сбоку экрана</b><span data-i="s2d">Она появляется только там, где можно писать</span></li>
+      <li><b data-i="s3">Говорите — текст вставится сам</b><span data-i="s3d">Без «э-э», без ошибок, вежливо</span></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 data-i="voiceH">Почему не голосовое</h2>
+    <p class="note" data-i="voiceP">Голосовое слушают не сразу: начальник за рулём, хозяин квартиры в магазине, в бригадном чате шумно. Текст читают сразу и отвечают быстрее. А писать долго — и с ошибками.</p>
+  </section>
+
+  <section>
+    <h2 data-i="privH">Ваш голос нигде не хранится</h2>
+    <div class="panel">
+      <ul class="facts">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          <span data-i="p1">Запись удаляется с телефона сразу после отправки</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          <span data-i="p2">На сервере звук обрабатывается в памяти и не сохраняется</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          <span data-i="p3">Текст сообщений не сохраняется и никому не передаётся</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          <span data-i="p4">В банковских приложениях кнопка не появляется вообще</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-i="priceH">Сколько стоит</h2>
+    <div class="panel">
+      <div class="price"><b data-i="priceB">Бесплатно в бете</b><span data-i="priceS">потом — небольшая плата в рублях, с разовыми пакетами без подписки</span></div>
+      <p class="note" data-i="priceN">Мы спросим вас о цене до того, как её назначим.</p>
+    </div>
+  </section>
+
+  <section class="cta">
+    <a class="btn" id="cta-bottom" href="https://t.me/talktype_master_bot?start=beta" target="_blank" rel="noopener" data-i="cta">Записаться в бету</a>
+    <p class="note" data-i="ctaNote2">Напишем, когда откроем доступ. Android 10 и новее.</p>
+  </section>
+
+  <footer>
+    <p>TalkType · <span data-i="footStatus">приложение в разработке</span></p>
+  </footer>
+</div>
+
+<script>
+  const EXAMPLES = [
+    {
+      to: { ru: "начальнику", uz: "boshliqqa" },
+      raw: "алло начальник это я... завтра не могу прийти работа, мне патент документ делать надо, можно послезавтра выйду да?",
+      clean: "Здравствуйте! Завтра не смогу выйти на работу — нужно оформить патент.\nМогу выйти послезавтра. Извините за неудобства."
+    },
+    {
+      to: { ru: "хозяину квартиры", uz: "uy egasiga" },
+      raw: "здравствуйте это по квартире... деньги я отправлял вчера вечером или сегодня утром, посмотрите пожалуйста пришёл или нет",
+      clean: "Здравствуйте! Я отправил оплату за квартиру вчера вечером.\nПожалуйста, проверьте, поступили ли деньги."
+    },
+    {
+      to: { ru: "в чат бригады", uz: "brigada chatiga" },
+      raw: "мужики а завтра во сколько собираемся, я не понял объект какой, тот который вчера был или новый",
+      clean: "Ребята, во сколько завтра собираемся?\nИ на какой объект — вчерашний или новый?"
+    }
+  ];
+
+  const I18N = {
+    ru: {
+      eyebrow: "Скоро · Android",
+      h1: "Говорите как умеете — отправляйте как надо",
+      lede: "Нажимаете кнопку, говорите своими словами — в поле вставляется грамотный русский текст. В Telegram, WhatsApp, в чате с начальником.",
+      to: "Кому:",
+      labelRaw: "Как сказали",
+      labelClean: "Что вставится",
+      listening: "Слушаю…",
+      thinking: "Обрабатываю…",
+      btnNext: "Другой пример",
+      cta: "Записаться в бету",
+      ctaNote: "Первым 50 — бесплатно на всё время беты",
+      ctaNote2: "Напишем, когда откроем доступ. Android 10 и новее.",
+      howH: "Как это работает",
+      s1: "Поставьте курсор в любое поле ввода",
+      s1d: "Чат, поиск, форма — приложение не важно",
+      s2: "Нажмите на кнопку сбоку экрана",
+      s2d: "Она появляется только там, где можно писать",
+      s3: "Говорите — текст вставится сам",
+      s3d: "Без «э-э», без ошибок, вежливо",
+      voiceH: "Почему не голосовое",
+      voiceP: "Голосовое слушают не сразу: начальник за рулём, хозяин квартиры в магазине, в бригадном чате шумно. Текст читают сразу и отвечают быстрее. А писать долго — и с ошибками.",
+      privH: "Ваш голос нигде не хранится",
+      p1: "Запись удаляется с телефона сразу после отправки",
+      p2: "На сервере звук обрабатывается в памяти и не сохраняется",
+      p3: "Текст сообщений не сохраняется и никому не передаётся",
+      p4: "В банковских приложениях кнопка не появляется вообще",
+      priceH: "Сколько стоит",
+      priceB: "Бесплатно в бете",
+      priceS: "потом — небольшая плата в рублях, с разовыми пакетами без подписки",
+      priceN: "Мы спросим вас о цене до того, как её назначим.",
+      footStatus: "приложение в разработке"
+    },
+    uz: {
+      eyebrow: "Tez orada · Android",
+      h1: "Qanday gapira olsangiz — shunday ayting, matn to‘g‘ri chiqadi",
+      lede: "Tugmani bosasiz, o‘z so‘zingiz bilan gapirasiz — maydonga savodli rus tilidagi matn qo‘yiladi. Telegram, WhatsApp, boshliq bilan chatda.",
+      to: "Kimga:",
+      labelRaw: "Qanday aytdingiz",
+      labelClean: "Nima qo‘yiladi",
+      listening: "Eshityapman…",
+      thinking: "Ishlanmoqda…",
+      btnNext: "Boshqa misol",
+      cta: "Betaga yozilish",
+      ctaNote: "Birinchi 50 kishiga — beta davomida bepul",
+      ctaNote2: "Ochilganda yozamiz. Android 10 va undan yuqori.",
+      howH: "Qanday ishlaydi",
+      s1: "Kursorni istalgan matn maydoniga qo‘ying",
+      s1d: "Chat, qidiruv, forma — ilova ahamiyatsiz",
+      s2: "Ekran chetidagi tugmani bosing",
+      s2d: "U faqat yozish mumkin bo‘lgan joyda chiqadi",
+      s3: "Gapiring — matn o‘zi qo‘yiladi",
+      s3d: "«E-e»siz, xatosiz, xushmuomala",
+      voiceH: "Nega ovozli xabar emas",
+      voiceP: "Ovozli xabarni darrov eshitishmaydi: boshliq rulda, uy egasi do‘konda, brigada chatida shovqin. Matnni esa darrov o‘qiydi va tezroq javob beradi. Yozish esa uzoq — va xato bilan.",
+      privH: "Ovozingiz hech qayerda saqlanmaydi",
+      p1: "Yozuv jo‘natilgach telefondan darrov o‘chiriladi",
+      p2: "Serverda ovoz xotirada ishlanadi va saqlanmaydi",
+      p3: "Xabar matni saqlanmaydi va hech kimga berilmaydi",
+      p4: "Bank ilovalarida tugma umuman chiqmaydi",
+      priceH: "Narxi qancha",
+      priceB: "Betada bepul",
+      priceS: "keyin — rublda kichik to‘lov, obunasiz bir martalik paketlar bilan",
+      priceN: "Narxni belgilashdan oldin sizdan so‘raymiz.",
+      footStatus: "ilova ishlab chiqilmoqda"
+    }
+  };
+
+  const stage = document.getElementById("stage");
+  const playBtn = document.getElementById("play");
+  const playLabel = document.getElementById("play-label");
+  const dots = document.getElementById("dots");
+  const demoTo = document.getElementById("demo-to");
+
+  let lang = "ru";
+  let index = 0;
+  let busy = false;
+  let timers = [];
+
+  const t = (key) => I18N[lang][key] || "";
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function clearTimers() {
+    timers.forEach(clearTimeout);
+    timers = [];
+  }
+
+  function applyLang() {
+    document.querySelectorAll("[data-i]").forEach((el) => {
+      const key = el.dataset.i;
+      if (I18N[lang][key]) el.textContent = I18N[lang][key];
+    });
+    document.documentElement.lang = lang === "uz" ? "uz" : "ru";
+    document.getElementById("lang-ru").setAttribute("aria-pressed", String(lang === "ru"));
+    document.getElementById("lang-uz").setAttribute("aria-pressed", String(lang === "uz"));
+    demoTo.textContent = EXAMPLES[index].to[lang];
+    if (!busy) playLabel.textContent = t("btnNext");
+    renderDone();
+  }
+
+  function syncDots() {
+    [...dots.children].forEach((d, i) => d.classList.toggle("on", i === index));
+    demoTo.textContent = EXAMPLES[index].to[lang];
+  }
+
+  function block(label, node) {
+    const wrap = document.createElement("div");
+    wrap.className = "block reveal";
+    const l = document.createElement("div");
+    l.className = "step-label";
+    l.textContent = label;
+    wrap.append(l, node);
+    return wrap;
+  }
+
+  function bubble(cls, text) {
+    const el = document.createElement("div");
+    el.className = cls;
+    el.textContent = text;
+    return el;
+  }
+
+  function renderDone() {
+    const ex = EXAMPLES[index];
+    stage.replaceChildren(
+      block(t("labelRaw"), bubble("raw", ex.raw)),
+      block(t("labelClean"), bubble("clean", ex.clean))
+    );
+  }
+
+  function renderListening() {
+    const wave = document.createElement("div");
+    wave.className = "wave";
+    for (let i = 0; i < 22; i++) {
+      const bar = document.createElement("i");
+      bar.style.animationDelay = (i * 0.055).toFixed(3) + "s";
+      wave.append(bar);
+    }
+    stage.replaceChildren(block(t("listening"), wave));
+  }
+
+  function renderThinking(ex) {
+    const p = document.createElement("p");
+    p.className = "thinking";
+    p.textContent = t("thinking");
+    stage.replaceChildren(block(t("labelRaw"), bubble("raw", ex.raw)), p);
+  }
+
+  function run() {
+    if (busy) return;
+    index = (index + 1) % EXAMPLES.length;
+    syncDots();
+
+    if (reduced) { renderDone(); return; }
+
+    busy = true;
+    playBtn.disabled = true;
+    playLabel.textContent = t("listening");
+    renderListening();
+
+    timers.push(setTimeout(() => {
+      playLabel.textContent = t("thinking");
+      renderThinking(EXAMPLES[index]);
+    }, 1500));
+
+    timers.push(setTimeout(() => {
+      renderDone();
+      playLabel.textContent = t("btnNext");
+      playBtn.disabled = false;
+      busy = false;
+    }, 2500));
+  }
+
+  function setLang(next) {
+    lang = next;
+    clearTimers();
+    busy = false;
+    playBtn.disabled = false;
+    try { localStorage.setItem("tt-lang", next); } catch (e) { /* storage may be unavailable */ }
+    applyLang();
+  }
+
+  document.getElementById("lang-ru").addEventListener("click", () => setLang("ru"));
+  document.getElementById("lang-uz").addEventListener("click", () => setLang("uz"));
+  playBtn.addEventListener("click", run);
+
+  let saved = null;
+  try { saved = localStorage.getItem("tt-lang"); } catch (e) { /* storage may be unavailable */ }
+  lang = saved === "uz" ? "uz" : "ru";
+  applyLang();
+  syncDots();
+</script>
+</body>
+</html>
