@@ -6,10 +6,23 @@
 <title>TalkType — говорите как умеете, отправляйте как надо</title>
 <meta name="description" content="Нажимаете кнопку, говорите своими словами — в поле вставляется грамотный русский текст. В Telegram, WhatsApp, в чате с начальником. Голос нигде не хранится.">
 <meta name="theme-color" content="#0F6E58">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://sanjar-swe.github.io/talktype-site/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="uz_UZ">
+<meta property="og:site_name" content="TalkType">
+<meta property="og:url" content="https://sanjar-swe.github.io/talktype-site/">
 <meta property="og:title" content="TalkType — говорите как умеете, отправляйте как надо">
 <meta property="og:description" content="Сказали своими словами — в поле вставился грамотный русский текст. Работает в Telegram, WhatsApp и любом другом приложении на Android.">
+<meta property="og:image" content="https://sanjar-swe.github.io/talktype-site/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="TalkType — клавиатура с диктовкой для Android">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TalkType — говорите как умеете, отправляйте как надо">
+<meta name="twitter:description" content="Клавиатура с диктовкой для Android: сказали своими словами — вставился грамотный русский текст. Голос нигде не хранится.">
+<meta name="twitter:image" content="https://sanjar-swe.github.io/talktype-site/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Golos+Text:wght@400;500;600&display=swap">
@@ -230,10 +243,114 @@
   footer { color: var(--faint); font-size: 13px; display: flex; flex-direction: column; gap: 6px; }
   footer a { color: var(--muted); }
 
+  .faq { display: flex; flex-direction: column; gap: 14px; }
+  .faq h3 { font-size: 16px; font-weight: 600; margin: 0 0 4px; }
+  .faq p { color: var(--muted); font-size: 15px; }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
   }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://sanjar-swe.github.io/talktype-site/#app",
+      "name": "TalkType",
+      "alternateName": "ТолкТайп",
+      "applicationCategory": "UtilitiesApplication",
+      "applicationSubCategory": "Клавиатура с голосовым вводом",
+      "operatingSystem": "Android 10+",
+      "inLanguage": ["ru", "uz"],
+      "url": "https://sanjar-swe.github.io/talktype-site/",
+      "image": "https://sanjar-swe.github.io/talktype-site/og.png",
+      "description": "Клавиатура с диктовкой для Android: пользователь говорит своими словами, а в поле ввода вставляется грамотный, вежливый русский текст. Сделана для тех, кто говорит по-русски лучше, чем пишет — прежде всего для трудовых мигрантов в России. Аудио не сохраняется ни на телефоне, ни на сервере. Приложение в разработке, идёт набор в закрытую бету.",
+      "featureList": [
+        "Диктовка в любом приложении: Telegram, WhatsApp, СМС, браузер",
+        "Речь автоматически превращается в вежливый деловой текст без слов-паразитов и ошибок",
+        "Работает как клавиатура, поэтому не требует разрешения специальных возможностей",
+        "Интерфейс на русском и узбекском языках",
+        "Аудио обрабатывается в памяти и не сохраняется",
+        "2000 слов в месяц бесплатно, дальше — разовые пакеты слов без подписки"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "RUB",
+        "description": "2000 слов в месяц бесплатно; дополнительные слова покупаются разовыми пакетами, подписки нет"
+      },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Трудовые мигранты в России, билингвы, все, кому проще сказать, чем написать"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://sanjar-swe.github.io/talktype-site/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Что делает TalkType?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Это клавиатура для Android. В любом чате вы нажимаете микрофон и говорите своими словами, а в поле ввода вставляется готовый грамотный текст на русском — без «э-э», повторов и ошибок, вежливым тоном."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Чем это лучше голосового сообщения?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Голосовое слушают не сразу: начальник за рулём, хозяин квартиры в магазине, в рабочем чате шумно. Текст читают сразу и отвечают быстрее. При этом вам не нужно писать самому."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Сохраняется ли мой голос?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Нет. Запись удаляется с телефона сразу после отправки, на сервере обрабатывается только в памяти и не записывается на диск. Текст сообщений тоже не сохраняется."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Читает ли клавиатура то, что я печатаю руками?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Нет. TalkType вставляет только то, что вы надиктовали, нажав кнопку микрофона. Обычный набор текста клавиатура не перехватывает и никуда не отправляет."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Сколько стоит TalkType?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "2000 слов в месяц бесплатно. Дальше — разовые пакеты слов, без подписки; купленные слова не сгорают. Оплатить можно прямо в Telegram, банковская карта не нужна."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "На каких телефонах работает?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "На Android 10 и новее. Версии для iPhone пока нет."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Нужен ли интернет?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Да. Распознавание и обработка речи идут на сервере, поэтому нужно подключение. Офлайн-режим — в планах."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -319,6 +436,40 @@
     </div>
   </section>
 
+  <section>
+    <h2 data-i="faqH">Частые вопросы</h2>
+    <div class="panel faq">
+      <div>
+        <h3 data-i="q1">Что делает TalkType?</h3>
+        <p data-i="a1">Это клавиатура для Android. В любом чате вы нажимаете микрофон и говорите своими словами, а в поле ввода вставляется готовый грамотный текст на русском — без «э-э», повторов и ошибок, вежливым тоном.</p>
+      </div>
+      <div>
+        <h3 data-i="q2">Чем это лучше голосового сообщения?</h3>
+        <p data-i="a2">Голосовое слушают не сразу: начальник за рулём, хозяин квартиры в магазине, в рабочем чате шумно. Текст читают сразу и отвечают быстрее. При этом вам не нужно писать самому.</p>
+      </div>
+      <div>
+        <h3 data-i="q3">Сохраняется ли мой голос?</h3>
+        <p data-i="a3">Нет. Запись удаляется с телефона сразу после отправки, на сервере обрабатывается только в памяти и не записывается на диск. Текст сообщений тоже не сохраняется.</p>
+      </div>
+      <div>
+        <h3 data-i="q4">Читает ли клавиатура то, что я печатаю руками?</h3>
+        <p data-i="a4">Нет. TalkType вставляет только то, что вы надиктовали, нажав кнопку микрофона. Обычный набор текста клавиатура не перехватывает и никуда не отправляет.</p>
+      </div>
+      <div>
+        <h3 data-i="q5">Сколько стоит TalkType?</h3>
+        <p data-i="a5">2000 слов в месяц бесплатно. Дальше — разовые пакеты слов, без подписки; купленные слова не сгорают. Оплатить можно прямо в Telegram, банковская карта не нужна.</p>
+      </div>
+      <div>
+        <h3 data-i="q6">На каких телефонах работает?</h3>
+        <p data-i="a6">На Android 10 и новее. Версии для iPhone пока нет.</p>
+      </div>
+      <div>
+        <h3 data-i="q7">Нужен ли интернет?</h3>
+        <p data-i="a7">Да. Распознавание и обработка речи идут на сервере, поэтому нужно подключение. Офлайн-режим — в планах.</p>
+      </div>
+    </div>
+  </section>
+
   <section class="cta">
     <a class="btn" id="cta-bottom" href="https://t.me/talktype_master_bot?start=beta" target="_blank" rel="noopener" data-i="cta">Записаться в бету</a>
     <p class="note" data-i="ctaNote2">Напишем, когда откроем доступ. Android 10 и новее.</p>
@@ -380,6 +531,21 @@
       priceB: "2000 слов в месяц — бесплатно",
       priceS: "дальше — разовые пакеты слов, без подписки. Купленные слова не сгорают",
       priceN: "Оплата прямо в Telegram, банковская карта не нужна. Цену проверяем на живых людях — напишите, если дорого.",
+      faqH: "Частые вопросы",
+      q1: "Что делает TalkType?",
+      a1: "Это клавиатура для Android. В любом чате вы нажимаете микрофон и говорите своими словами, а в поле ввода вставляется готовый грамотный текст на русском — без «э-э», повторов и ошибок, вежливым тоном.",
+      q2: "Чем это лучше голосового сообщения?",
+      a2: "Голосовое слушают не сразу: начальник за рулём, хозяин квартиры в магазине, в рабочем чате шумно. Текст читают сразу и отвечают быстрее. При этом вам не нужно писать самому.",
+      q3: "Сохраняется ли мой голос?",
+      a3: "Нет. Запись удаляется с телефона сразу после отправки, на сервере обрабатывается только в памяти и не записывается на диск. Текст сообщений тоже не сохраняется.",
+      q4: "Читает ли клавиатура то, что я печатаю руками?",
+      a4: "Нет. TalkType вставляет только то, что вы надиктовали, нажав кнопку микрофона. Обычный набор текста клавиатура не перехватывает и никуда не отправляет.",
+      q5: "Сколько стоит TalkType?",
+      a5: "2000 слов в месяц бесплатно. Дальше — разовые пакеты слов, без подписки; купленные слова не сгорают. Оплатить можно прямо в Telegram, банковская карта не нужна.",
+      q6: "На каких телефонах работает?",
+      a6: "На Android 10 и новее. Версии для iPhone пока нет.",
+      q7: "Нужен ли интернет?",
+      a7: "Да. Распознавание и обработка речи идут на сервере, поэтому нужно подключение. Офлайн-режим — в планах.",
       footStatus: "приложение в разработке"
     },
     uz: {
@@ -413,6 +579,21 @@
       priceB: "Oyiga 2000 so‘z — bepul",
       priceS: "keyin — bir martalik so‘z paketlari, obunasiz. Sotib olingan so‘zlar yo‘qolmaydi",
       priceN: "To‘lov to‘g‘ridan-to‘g‘ri Telegramda, bank kartasi kerak emas. Narxni jonli odamlarda tekshiramiz — qimmat bo‘lsa, yozing.",
+      faqH: "Ko‘p so‘raladigan savollar",
+      q1: "TalkType nima qiladi?",
+      a1: "Bu Android uchun klaviatura. Istalgan chatda mikrofonni bosasiz va o‘z so‘zingiz bilan gapirasiz, maydonga esa tayyor, savodli rus tilidagi matn qo‘yiladi — «e-e»siz, takrorsiz va xatosiz, xushmuomala ohangda.",
+      q2: "Nega ovozli xabardan yaxshi?",
+      a2: "Ovozli xabarni darrov eshitishmaydi: boshliq rulda, uy egasi do‘konda, ish chatida shovqin. Matnni esa darrov o‘qiydi va tezroq javob beradi. Siz esa o‘zingiz yozib o‘tirmaysiz.",
+      q3: "Ovozim saqlanadimi?",
+      a3: "Yo‘q. Yozuv jo‘natilgach telefondan darrov o‘chiriladi, serverda faqat xotirada ishlanadi va diskka yozilmaydi. Xabar matni ham saqlanmaydi.",
+      q4: "Klaviatura qo‘lda yozganimni o‘qiydimi?",
+      a4: "Yo‘q. TalkType faqat siz mikrofonni bosib aytgan narsangizni qo‘yadi. Oddiy yozuvni klaviatura ushlamaydi va hech qayerga yubormaydi.",
+      q5: "TalkType qancha turadi?",
+      a5: "Oyiga 2000 so‘z bepul. Keyin — bir martalik so‘z paketlari, obunasiz; sotib olingan so‘zlar yo‘qolmaydi. To‘lovni to‘g‘ridan-to‘g‘ri Telegramda qilish mumkin, bank kartasi kerak emas.",
+      q6: "Qaysi telefonlarda ishlaydi?",
+      a6: "Android 10 va undan yuqori versiyalarda. iPhone uchun versiya hozircha yo‘q.",
+      q7: "Internet kerakmi?",
+      a7: "Ha. Nutqni tanish va ishlash serverda bo‘ladi, shuning uchun ulanish kerak. Oflayn rejim — rejalarda.",
       footStatus: "ilova ishlab chiqilmoqda"
     }
   };
